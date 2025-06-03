@@ -1,0 +1,10 @@
+/bin/
+/pkg/
+*.exe
+*.test
+*.out
+*.html
+.idea/
+.vscode/
+coverage
+main.go
