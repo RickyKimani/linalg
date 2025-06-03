@@ -1,21 +1,10 @@
 # 🔢 Linalg
 
-<div align="center">
-  <a href="https://pkg.go.dev/github.com/rickykimani/linalg">
-    <img src="https://img.shields.io/badge/Linear%20Algebra-Library-blue" alt="Linear Algebra Library">
-  </a>
-  <a href="https://golang.org/">
-    <img src="https://img.shields.io/badge/Go-1.18+-00ADD8?logo=go&logoColor=white" alt="Go Version">
-  </a>
-  <a href="https://opensource.org/licenses/MIT">
-    <img src="https://img.shields.io/badge/License-MIT-green" alt="License">
-  </a>
-  <a href="https://github.com/rickykimani/linalg/actions/workflows/ci.yml"> <img src="https://github.com/rickykimani/linalg/workflows/CI/badge.svg" alt="CI Status">
-  </a>
-  <a href="https://goreportcard.com/report/github.com/rickykimani/linalg">
-    <img src="https://img.shields.io/goreportcard/badge/github.com/rickykimani/linalg?logo=go" alt="Go Report Card">
-  </a>
-</div>
+[![Linear Algebra Library](https://img.shields.io/badge/linalg-Library-blue)](https://pkg.go.dev/github.com/rickykimani/linalg)
+[![Go Version](https://img.shields.io/badge/Go-1.21+-00ADD8?logo=go&logoColor=white)](https://golang.org/)
+[![License](https://img.shields.io/badge/License-MIT-green)](https://opensource.org/licenses/MIT)
+[![CI Status](https://github.com/rickykimani/linalg/workflows/CI/badge.svg)](https://github.com/rickykimani/linalg/actions/workflows/ci.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/rickykimani/linalg)](https://goreportcard.com/report/github.com/rickykimani/linalg)
 
 ---
 
@@ -186,22 +175,22 @@ We welcome contributions to the `linalg` project! Here's how you can help:
 
 ### Guidelines
 
-- **Code Style**: Follow Go's official [style guide](https://golang.org/doc/effective_go)
-- **Documentation**: Add comments to functions and update documentation as needed
-- **Testing**: Include tests for new functionality with good coverage
-- **Commit Messages**: Write clear, concise commit messages explaining the changes
+* **Code Style**: Follow Go's official [style guide](https://golang.org/doc/effective_go)
+* **Documentation**: Add comments to functions and update documentation as needed
+* **Testing**: Include tests for new functionality with good coverage
+* **Commit Messages**: Write clear, concise commit messages explaining the changes
 
 ### Reporting Issues
 
-- Use the GitHub issue tracker to report bugs
-- Include detailed steps to reproduce the issue
-- Mention your environment (Go version, OS, etc.)
+* Use the GitHub issue tracker to report bugs
+* Include detailed steps to reproduce the issue
+* Mention your environment (Go version, OS, etc.)
 
 ### Development Workflow
 
-- Check existing issues and PRs before starting work
-- For significant changes, open an issue for discussion first
-- Ask for code review from maintainers when ready
+* Check existing issues and PRs before starting work
+* For significant changes, open an issue for discussion first
+* Ask for code review from maintainers when ready
 
 We appreciate your contributions to making `linalg` better!
 
