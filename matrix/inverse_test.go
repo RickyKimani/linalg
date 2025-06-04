@@ -79,6 +79,14 @@ func TestInverse(t *testing.T) {
 			errorMsg string
 		}{
 			{
+				name: "Improper matrix",
+				matrix: Matrix[int]{
+					{1, 2},
+					{9},
+				},
+				errorMsg: fmt.Sprintf("inconsistent row length at row %d: expected %d, got %d", 1, 2, 1),
+			},
+			{
 				name: "Singular matrix",
 				matrix: Matrix[int]{
 					{2, 4},

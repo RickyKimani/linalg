@@ -18,8 +18,14 @@ func TestAdd(t *testing.T) {
 		{1, 2, 3},
 		{4, 5, 6},
 	}
+
 	E := Matrix[int]{
 		{1},
+	}
+
+	F := Matrix[int]{
+		{1, 2},
+		{3},
 	}
 
 	got, err := Add(A, B)
@@ -53,6 +59,16 @@ func TestAdd(t *testing.T) {
 		t.Fatalf("Expected error but got %v", got)
 	}
 
+	got, err = Add(F, A)
+	if err == nil {
+		t.Fatalf("Expected error but got %v", got)
+	}
+
+	got, err = Add(A, F)
+	if err == nil {
+		t.Fatalf("Expected error but got %v", got)
+	}
+
 }
 
 func TestSubtract(t *testing.T) {
@@ -70,8 +86,14 @@ func TestSubtract(t *testing.T) {
 		{1, 2, 3},
 		{4, 5, 6},
 	}
+
 	E := Matrix[int]{
 		{1},
+	}
+
+	F := Matrix[int]{
+		{1, 2},
+		{3},
 	}
 
 	got, err := Subtract(A, B)
@@ -100,6 +122,16 @@ func TestSubtract(t *testing.T) {
 		t.Fatalf("Expected error but got %v", got)
 	}
 	got, err = Subtract(A, E)
+	if err == nil {
+		t.Fatalf("Expected error but got %v", got)
+	}
+
+	got, err = Subtract(F, A)
+	if err == nil {
+		t.Fatalf("Expected error but got %v", got)
+	}
+
+	got, err = Subtract(A, F)
 	if err == nil {
 		t.Fatalf("Expected error but got %v", got)
 	}

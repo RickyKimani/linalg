@@ -22,6 +22,40 @@ func TestTransposeGeneral(t *testing.T) {
 	}
 }
 
+func TestTransposeErr(t *testing.T) {
+	result := make(Matrix[int], 0)
+
+	tests := []struct {
+		name   string
+		matrix Matrix[int]
+		want   Matrix[int]
+	}{
+		{
+			name: "inconsistent matrix",
+			matrix: Matrix[int]{
+				{1, 2},
+				{0},
+			},
+			want: result,
+		},
+
+		{
+			name:   "empty matrix",
+			matrix: make(Matrix[int], 0),
+			want:   result,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			transpose := Transpose(tt.matrix)
+			if !reflect.DeepEqual(tt.want, transpose) {
+				t.Fatal("Transpose error")
+			}
+		})
+	}
+}
+
 // Benchmark matrix transpose with different sizes
 func BenchmarkTranspose(b *testing.B) {
 	sizes := []int{100, 500, 1000}

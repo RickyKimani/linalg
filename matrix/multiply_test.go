@@ -137,6 +137,40 @@ func TestMultiply(t *testing.T) {
 			t.Errorf("expected 'empty matrix' error, got: %v", err)
 		}
 	})
+
+	t.Run("improper x int", func(t *testing.T) {
+		a := Matrix[int]{
+			{1, 2},
+			{5},
+		}
+
+		b := Matrix[int]{
+			{1, 2},
+			{3, 4},
+		}
+
+		_, err := Multiply(a, b)
+		if err == nil {
+			t.Error("Expected improper matrix error")
+		}
+	})
+
+	t.Run("int x improper", func(t *testing.T) {
+		a := Matrix[int]{
+			{1, 2},
+			{3, 4},
+		}
+
+		b := Matrix[int]{
+			{1, 2},
+			{5},
+		}
+
+		_, err := Multiply(a, b)
+		if err == nil {
+			t.Error("Expected improper matrix error")
+		}
+	})
 }
 
 func BenchmarkMultiply100x100(b *testing.B) {

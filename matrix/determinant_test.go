@@ -21,6 +21,15 @@ func TestDeterminants(t *testing.T) {
 			wantErr: true,
 		},
 		{
+			name: "improper matrix",
+			matrix: Matrix[int]{
+				{1, 2},
+				{3},
+			},
+			want:    0,
+			wantErr: true,
+		},
+		{
 			name: "1x1 matrix",
 			matrix: Matrix[int]{
 				{5},

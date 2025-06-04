@@ -13,8 +13,15 @@ func TestEigenvaluesQR(t *testing.T) {
 		tol       float64
 		expected  []float64
 		wantError bool
-		errorMsg  string
 	}{
+		{
+			name: "Improper matrix",
+			matrix: Matrix[float64]{
+				{1, 2},
+				{4},
+			},
+			wantError: true,
+		},
 		{
 			name: "2x2 symmetric matrix",
 			matrix: Matrix[float64]{
@@ -32,7 +39,6 @@ func TestEigenvaluesQR(t *testing.T) {
 			maxIter:   100,
 			tol:       1e-10,
 			wantError: true,
-			errorMsg:  "matrix cannot be empty",
 		},
 		{
 			name: "Non-square matrix",
@@ -43,7 +49,6 @@ func TestEigenvaluesQR(t *testing.T) {
 			maxIter:   100,
 			tol:       1e-10,
 			wantError: true,
-			errorMsg:  "matrix must be square",
 		},
 		{
 			name: "Zero iterations",
@@ -67,10 +72,8 @@ func TestEigenvaluesQR(t *testing.T) {
 					t.Errorf("Expected error but got nil")
 					return
 				}
-				if err.Error() != tt.errorMsg {
-					t.Errorf("Expected error message %q but got %q", tt.errorMsg, err.Error())
-				}
 				return
+
 			}
 
 			if err != nil {

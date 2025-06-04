@@ -42,7 +42,7 @@ func Det[T int | float64](m Matrix[T]) (float64, error) {
 		if err.Error() == "matrix is singular" {
 			return 0.0, nil
 		}
-		return 0, err
+		return 0, err // Dead code errors handled earlier
 	}
 
 	// Multiply diagonal elements

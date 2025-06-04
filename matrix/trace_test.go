@@ -146,6 +146,16 @@ func TestTrace(t *testing.T) {
 			wantErr:  true,
 			errorMsg: "cannot find trace of a non-square matrix",
 		},
+		{
+			name: "Inconsistent matrix",
+			input: Matrix[int]{
+				{1, 2},
+				{7},
+			},
+			expected: 0,
+			wantErr:  true,
+			errorMsg: fmt.Sprintf("invalid matrix: inconsistent row length at row %d: expected %d, got %d", 1, 2, 1),
+		},
 	}
 
 	for _, tt := range tests {

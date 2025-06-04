@@ -73,20 +73,32 @@ func TestQRDecompose_ErrorCases(t *testing.T) {
 	})
 
 	// Test case 2: Non-rectangular matrix
-	t.Run("non-rectangular matrix", func(t *testing.T) {
+	t.Run("improper matrix", func(t *testing.T) {
 		A := Matrix[float64]{
 			{1, 2, 3},
 			{4, 5}, // One element less than the first row
 		}
 		_, _, err := QRDecompose(A)
 		if err == nil {
-			t.Error("expected error for non-rectangular matrix, got nil")
+			t.Error("expected error for improper matrix, got nil")
 			return
 		}
 
 		expectedErrorPrefix := "inconsistent row length at row"
 		if !strings.Contains(err.Error(), expectedErrorPrefix) {
 			t.Errorf("expected error containing '%s', got: %v", expectedErrorPrefix, err)
+		}
+	})
+
+	t.Run("non-square matrix", func(t *testing.T) {
+		A := Matrix[float64]{
+			{1, 2, 3},
+			{1, 3, 0},
+		}
+
+		_, _, err := QRDecompose(A)
+		if err == nil {
+			t.Error("expected error for non-square matrix, got nil")
 		}
 	})
 

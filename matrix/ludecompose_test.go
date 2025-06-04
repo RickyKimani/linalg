@@ -14,6 +14,14 @@ func TestLUDecompose(t *testing.T) {
 		diagonal bool
 	}{
 		{
+			name: "improper matrix",
+			input: Matrix[int]{
+				{1, 2},
+				{2},
+			},
+			wantErr: true,
+		},
+		{
 			name: "3x3 standard matrix",
 			input: Matrix[int]{
 				{2, 3, 1},

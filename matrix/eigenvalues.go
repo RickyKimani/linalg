@@ -62,12 +62,12 @@ func EigenvaluesQR[T int | float64](m Matrix[T], maxIter int, tol float64) ([]fl
 
 		Q, R, err := QRDecompose(current)
 		if err != nil {
-			return nil, err
+			return nil, err //Dead, !isSquare already handled
 		}
 
 		current, err = Multiply(R, Q)
 		if err != nil {
-			return nil, err
+			return nil, err //Dead, Validation already handled
 		}
 
 		if iter > 0 {
