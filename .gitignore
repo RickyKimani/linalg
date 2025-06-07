@@ -7,4 +7,6 @@
 .idea/
 .vscode/
 coverage
-main.go
+test.go
+examples/
+*.txt
