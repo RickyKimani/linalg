@@ -10,3 +10,4 @@ coverage
 test.go
 examples/
 *.txt
+main.go

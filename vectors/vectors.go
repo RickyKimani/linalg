@@ -18,6 +18,70 @@ import (
 // allowing for both integer and floating-point vectors.
 type Vector[T int | float64] []T
 
+// Origin3D represents the zero vector in 3D space
+var Origin3D = Vector[float64]{0, 0, 0}
+
+// UnitX represents the unit vector along the x-axis in 3D space
+var UnitX = Vector[float64]{1, 0, 0}
+
+// UnitY represents the unit vector along the y-axis in 3D space
+var UnitY = Vector[float64]{0, 1, 0}
+
+// UnitZ represents the unit vector along the z-axis in 3D space
+var UnitZ = Vector[float64]{0, 0, 1}
+
+// StandardBasis returns the complete set of standard basis vectors for the given dimension.
+//
+// Parameters:
+//   - dim: The dimension of the vector space
+//
+// Returns:
+//   - []Vector[float64]: A slice containing all basis vectors, essentially an identity matrix of order dim
+//   - error: Error if dimension is invalid
+//
+// Example:
+//
+//	basis, _ := StandardBasis(3) // Returns [[1,0,0], [0,1,0], [0,0,1]]
+func StandardBasis(dim int) ([]Vector[float64], error) {
+	if dim <= 0 {
+		return nil, errors.New("dimension must be positive")
+	}
+	basis := make([]Vector[float64], dim)
+	for i := range dim {
+		basis[i] = make(Vector[float64], dim)
+		basis[i][i] = 1
+	}
+	return basis, nil
+}
+
+// StandardBasisVector returns a unit vector for the specified axis and dimension.
+//
+// Parameters:
+//   - axis: The axis index (0 for x, 1 for y, etc.)
+//   - dim: The total dimension of the vector space
+//
+// Returns:
+//   - Vector[float64]: A unit vector along the specified axis
+//   - error: Error if axis is out of bounds or dimension is invalid
+//
+// Example:
+//
+//	xAxis, _ := StandardBasisVector(0, 3) // Returns [1,0,0]
+//	yAxis, _ := StandardBasisVector(1, 4) // Returns [0,1,0,0] in 4D space
+func StandardBasisVector(axis, dim int) (Vector[float64], error) {
+	if dim <= 0 {
+		return nil, errors.New("dimension must be positive")
+	}
+
+	if axis < 0 || axis >= dim {
+		return nil, fmt.Errorf("axis %d out of bounds for dimension %d", axis, dim)
+	}
+
+	v := make(Vector[float64], dim)
+	v[axis] = 1.0
+	return v, nil
+}
+
 // NewVector creates a new Vector[float64] from a slice of numeric values.
 //
 // This function converts all elements from the input slice to float64 type,
