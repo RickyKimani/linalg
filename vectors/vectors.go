@@ -99,11 +99,100 @@ func StandardBasisVector(axis, dim int) (Vector[float64], error) {
 //	intSlice := []int{1, 2, 3}
 //	vec := NewVector(intSlice)  // Returns Vector[float64]{1.0, 2.0, 3.0}
 func NewVector[T int | float64](S []T) Vector[float64] {
-	var vec Vector[float64]
-	for _, val := range S {
-		vec = append(vec, float64(val))
+	vec := make(Vector[float64], len(S))
+	for i, val := range S {
+		vec[i] = float64(val)
 	}
 	return vec
+}
+
+// NewEmptyVector creates a new zero vector of the specified size.
+//
+// This function allocates a new vector with all components initialized to zero.
+// It's useful for creating vectors that will be populated later or for
+// initializing accumulator vectors in mathematical operations.
+//
+// Parameters:
+//   - size: The number of components in the vector
+//
+// Returns:
+//   - Vector[float64]: A new zero vector with the specified size
+//
+// Example:
+//
+//	vec := NewEmptyVector(3)  // Returns Vector[float64]{0.0, 0.0, 0.0}
+func NewEmptyVector(size int) Vector[float64] {
+	if size <= 0 {
+		return Vector[float64]{}
+	}
+	return make(Vector[float64], size)
+}
+
+// Set modifies the value at the specified index in the vector.
+//
+// This method provides bounds-checked access for setting vector components.
+// It ensures that the index is valid before attempting to modify the vector,
+// preventing potential runtime panics.
+//
+// Parameters:
+//   - i: The index of the component to modify (0-based)
+//   - val: The new value to set at the specified index
+//
+// Returns:
+//   - error: An error if the index is out of bounds
+//
+// Example:
+//
+//	var vec Vector[float64] = Vector[float64]{1.0, 2.0, 3.0}
+//	err := vec.Set(1, 5.0)  // vec becomes {1.0, 5.0, 3.0}
+func (v *Vector[T]) Set(i int, val T) error {
+	if i < 0 || i >= len(*v) {
+		return fmt.Errorf("index %d out of bounds for vector of length %d", i, len(*v))
+	}
+	(*v)[i] = val
+	return nil
+}
+
+// Get retrieves the value at the specified index in the vector.
+//
+// This method provides bounds-checked access for reading vector components.
+// It ensures that the index is valid before attempting to access the vector,
+// preventing potential runtime panics.
+//
+// Parameters:
+//   - i: The index of the component to retrieve (0-based)
+//
+// Returns:
+//   - T: The value at the specified index
+//   - error: An error if the index is out of bounds
+//
+// Example:
+//
+//	vec := Vector[float64]{1.0, 2.0, 3.0}
+//	val, err := vec.Get(1)  // Returns 2.0, nil
+func (v *Vector[T]) Get(i int) (T, error) {
+	var zero T
+	if i < 0 || i >= len(*v) {
+		return zero, fmt.Errorf("index %d out of bounds for vector of length %d", i, len(*v))
+	}
+	return (*v)[i], nil
+}
+
+// Size returns the number of components in the vector.
+//
+// This method provides a convenient way to get the dimensionality of a vector,
+// which is equivalent to calling len() on the underlying slice but offers
+// better semantic clarity in mathematical contexts.
+//
+// Returns:
+//   - int: The number of components (dimension) of the vector
+//
+// Example:
+//
+//	vec := Vector[float64]{1.0, 2.0, 3.0}
+//	dim := vec.Size()  // Returns 3
+func (v *Vector[T]) Size() int {
+	return len(*v)
 }
 
 // IsZero checks if a vector has all zero components.
@@ -172,7 +261,7 @@ func IsParallel[T, E int | float64](a Vector[T], b Vector[E]) (bool, error) {
 	}
 
 	if len(a) != len(b) {
-		return false, errors.New("vectors must have the same dimension")
+		return false, fmt.Errorf("vectors must have same dimension: got %d and %d", len(a), len(b))
 	}
 
 	// Normalize both vectors to compare directions
