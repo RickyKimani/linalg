@@ -280,6 +280,33 @@ func IsParallel[T, E int | float64](a Vector[T], b Vector[E]) (bool, error) {
 	return math.Abs(math.Abs(dotProduct)-1.0) < 1e-10, nil
 }
 
+// Copy creates a deep copy of the vector, converting it to Vector[float64].
+//
+// This method creates a new vector with all elements copied and converted
+// to float64 type. The original vector remains unchanged, making this useful
+// for creating independent copies that can be modified without affecting
+// the original.
+//
+// Returns:
+//   - Vector[float64]: A new vector containing copies of all elements as float64
+//
+// Example:
+//
+//	original := Vector[int]{1, 2, 3}
+//	copy := original.Copy()  // Returns Vector[float64]{1.0, 2.0, 3.0}
+//	copy.Set(0, 99.0)        // original remains unchanged
+func (v Vector[T]) Copy() Vector[float64] {
+	if len(v) == 0 {
+		return Vector[float64]{}
+	}
+
+	result := make(Vector[float64], len(v))
+	for i, val := range v {
+		result[i] = float64(val)
+	}
+	return result
+}
+
 func vectorsAlmostEqual[T, E int | float64](a Vector[T], b Vector[E]) (bool, error) {
 	if len(a) != len(b) {
 		return false, errors.New("vectors must have the same dimension")

@@ -122,3 +122,39 @@ func gtoFloat64Matrix[T int | float64](m Matrix[T]) Matrix[float64] {
 	}
 	return result
 }
+
+// Rows returns the number of rows in the matrix.
+//
+// This method provides a convenient way to get the row count of a matrix,
+// which is equivalent to calling len() on the matrix but offers better
+// semantic clarity in mathematical contexts.
+//
+// Returns:
+//   - int: The number of rows in the matrix
+//
+// Example:
+//
+//	mat := Matrix[int]{{1, 2}, {3, 4}, {5, 6}}
+//	rows := mat.Rows()  // Returns 3
+func (m Matrix[T]) Rows() int {
+    return len(m)
+}
+
+// Cols returns the number of columns in the matrix.
+//
+// For an empty matrix, this returns 0. For non-empty matrices,
+// it returns the length of the first row (assuming the matrix is valid).
+//
+// Returns:
+//   - int: The number of columns in the matrix
+//
+// Example:
+//
+//	mat := Matrix[int]{{1, 2, 3}, {4, 5, 6}}
+//	cols := mat.Cols()  // Returns 3
+func (m Matrix[T]) Cols() int {
+    if len(m) == 0 {
+        return 0
+    }
+    return len(m[0])
+}
