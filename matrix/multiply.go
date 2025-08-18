@@ -73,15 +73,15 @@ func Multiply[T, E int | float64](a Matrix[T], b Matrix[E]) (Matrix[float64], er
 //   - v: Input vector of type Vector[E] where E is int or float64
 //
 // Returns:
-//   - Matrix[float64]: The resulting vector as a column matrix (n×1) with float64 elements
+//   - vectors.Vector[float64]: The resulting vector with float64 elements
 //   - error: An error if the matrix is invalid, empty, or if dimensions are incompatible
 //
 // The time complexity is O(m×n) where m is the number of rows and n is the number of columns.
 //
 // Example:
 //
-//	Matrix [[1,2], [3,4]] × Vector [5,6] = [[17], [39]]
-func MultiplyVector[T, E int | float64](m Matrix[T], v vectors.Vector[E]) (Matrix[float64], error) {
+//	Matrix [[1,2], [3,4]] × Vector [5,6] = [17, 39]
+func MultiplyVector[T, E int | float64](m Matrix[T], v vectors.Vector[E]) (vectors.Vector[float64], error) {
 	// Validate matrix structure
 	if err := m.Validate(); err != nil {
 		return nil, fmt.Errorf("matrix: %w", err)
@@ -102,12 +102,11 @@ func MultiplyVector[T, E int | float64](m Matrix[T], v vectors.Vector[E]) (Matri
 
 	// Perform matrix-vector multiplication
 	rows := len(m)
-	result := make(Matrix[float64], rows)
+	result := make(vectors.Vector[float64], rows)
 
 	for i := range rows {
-		result[i] = make([]float64, 1) // Column vector
 		for j := range len(v) {
-			result[i][0] += float64(m[i][j]) * float64(v[j])
+			result[i] += float64(m[i][j]) * float64(v[j])
 		}
 	}
 
@@ -125,15 +124,15 @@ func MultiplyVector[T, E int | float64](m Matrix[T], v vectors.Vector[E]) (Matri
 //   - m: Input matrix of type Matrix[E] where E is int or float64
 //
 // Returns:
-//   - Matrix[float64]: The resulting vector as a row matrix (1×n) with float64 elements
+//   - vectors.Vector[float64]: The resulting vector with float64 elements
 //   - error: An error if the matrix is invalid, empty, or if dimensions are incompatible
 //
 // The time complexity is O(m×n) where m is the number of rows and n is the number of columns.
 //
 // Example:
 //
-//	Vector [1,2] × Matrix [[3,4], [5,6]] = [[13,16]]
-func VectorMultiply[T, E int | float64](v vectors.Vector[T], m Matrix[E]) (Matrix[float64], error) {
+//	Vector [1,2] × Matrix [[3,4], [5,6]] = [13, 16]
+func VectorMultiply[T, E int | float64](v vectors.Vector[T], m Matrix[E]) (vectors.Vector[float64], error) {
 	// Validate matrix structure
 	if err := m.Validate(); err != nil {
 		return nil, fmt.Errorf("matrix: %w", err)
@@ -154,12 +153,11 @@ func VectorMultiply[T, E int | float64](v vectors.Vector[T], m Matrix[E]) (Matri
 
 	// Perform vector-matrix multiplication
 	cols := len(m[0])
-	result := make(Matrix[float64], 1) // Row vector
-	result[0] = make([]float64, cols)
+	result := make(vectors.Vector[float64], cols)
 
 	for j := range cols {
 		for i := range len(v) {
-			result[0][j] += float64(v[i]) * float64(m[i][j])
+			result[j] += float64(v[i]) * float64(m[i][j])
 		}
 	}
 
