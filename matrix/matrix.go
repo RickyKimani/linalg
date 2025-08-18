@@ -30,14 +30,14 @@ type Matrix[T int | float64] [][]T
 //   - data: A 2D slice containing the matrix elements
 //
 // Returns:
-//   - Matrix[T]: A new matrix with the same values as the input data
+//   - Matrix[float64]: A new matrix with all values converted to float64
 //   - error: An error if the input data has inconsistent row lengths
 //
-// The function performs a deep copy of the input data, so modifications to the
-// original slice will not affect the returned matrix.
-func NewMatrix[T int | float64](data [][]T) (Matrix[T], error) {
+// The function performs a deep copy of the input data and converts all elements
+// to float64, so modifications to the original slice will not affect the returned matrix.
+func NewMatrix[T int | float64](data [][]T) (Matrix[float64], error) {
 	if len(data) == 0 {
-		return Matrix[T]{}, nil // Empty matrix is valid
+		return Matrix[float64]{}, nil // Empty matrix is valid
 	}
 
 	rowLength := len(data[0])
@@ -48,10 +48,13 @@ func NewMatrix[T int | float64](data [][]T) (Matrix[T], error) {
 		}
 	}
 
-	// Create a deep copy to avoid external modification of the input data
-	result := make(Matrix[T], len(data))
+	// Create a deep copy and convert to float64
+	result := make(Matrix[float64], len(data))
 	for i, row := range data {
-		result[i] = slices.Clone(row)
+		result[i] = make([]float64, len(row))
+		for j, val := range row {
+			result[i][j] = float64(val)
+		}
 	}
 
 	return result, nil
@@ -137,7 +140,7 @@ func gtoFloat64Matrix[T int | float64](m Matrix[T]) Matrix[float64] {
 //	mat := Matrix[int]{{1, 2}, {3, 4}, {5, 6}}
 //	rows := mat.Rows()  // Returns 3
 func (m Matrix[T]) Rows() int {
-    return len(m)
+	return len(m)
 }
 
 // Cols returns the number of columns in the matrix.
@@ -153,8 +156,8 @@ func (m Matrix[T]) Rows() int {
 //	mat := Matrix[int]{{1, 2, 3}, {4, 5, 6}}
 //	cols := mat.Cols()  // Returns 3
 func (m Matrix[T]) Cols() int {
-    if len(m) == 0 {
-        return 0
-    }
-    return len(m[0])
+	if len(m) == 0 {
+		return 0
+	}
+	return len(m[0])
 }
