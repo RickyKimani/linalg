@@ -60,14 +60,50 @@ func NewMatrix[T int | float64](data [][]T) (Matrix[float64], error) {
 	return result, nil
 }
 
+// NewEmptyMatrix creates a new zero matrix of the specified dimensions.
+//
+// This function allocates a new matrix with all elements initialized to zero.
+// It's useful for creating matrices that will be populated later or for
+// initializing accumulator matrices in mathematical operations.
+//
+// Parameters:
+//   - rows: The number of rows in the matrix
+//   - cols: The number of columns in the matrix
+//
+// Returns:
+//   - Matrix[float64]: A new zero matrix with the specified dimensions
+//   - error: An error if either dimension is negative
+//
+// Example:
+//
+//	mat, _ := NewEmptyMatrix(3, 2)  // Returns a 3×2 matrix of zeros
+//	// [[0, 0], [0, 0], [0, 0]]
+func NewEmptyMatrix(rows, cols int) (Matrix[float64], error) {
+	if rows < 0 || cols < 0 {
+		return nil, fmt.Errorf("matrix dimensions cannot be negative: got %d×%d", rows, cols)
+	}
+
+	if rows == 0 || cols == 0 {
+		return Matrix[float64]{}, nil // Return empty matrix for zero dimensions
+	}
+
+	result := make(Matrix[float64], rows)
+	for i := range rows {
+		result[i] = make([]float64, cols)
+		// Elements are automatically initialized to 0.0
+	}
+
+	return result, nil
+}
+
 // Validate checks if all rows in the matrix have the same length.
-func (m Matrix[T]) Validate() error { //TODO: Use validate in important operations
-	if len(m) == 0 {
+func (m *Matrix[T]) Validate() error { //TODO: Use validate in important operations
+	if len(*m) == 0 {
 		return nil // Empty matrix is valid
 	}
 
-	rowLength := len(m[0])
-	for i, row := range m {
+	rowLength := len((*m)[0])
+	for i, row := range *m {
 		if len(row) != rowLength {
 			return fmt.Errorf("inconsistent row length at row %d: expected %d, got %d",
 				i, rowLength, len(row))
@@ -82,11 +118,11 @@ func (m Matrix[T]) Validate() error { //TODO: Use validate in important operatio
 // An empty matrix is not considered square. For a non-empty matrix,
 // the function checks if the number of rows equals the number of columns
 // in the first row.
-func (m Matrix[T]) isSquare() bool {
-	if len(m) == 0 {
+func (m *Matrix[T]) isSquare() bool {
+	if len(*m) == 0 {
 		return false
 	}
-	return len(m) == len(m[0])
+	return len(*m) == len((*m)[0])
 }
 
 // cloneMatrix creates a deep copy of the input matrix.
@@ -129,8 +165,7 @@ func gtoFloat64Matrix[T int | float64](m Matrix[T]) Matrix[float64] {
 // Rows returns the number of rows in the matrix.
 //
 // This method provides a convenient way to get the row count of a matrix,
-// which is equivalent to calling len() on the matrix but offers better
-// semantic clarity in mathematical contexts.
+// which is equivalent to calling len() on the matrix.
 //
 // Returns:
 //   - int: The number of rows in the matrix
@@ -139,8 +174,8 @@ func gtoFloat64Matrix[T int | float64](m Matrix[T]) Matrix[float64] {
 //
 //	mat := Matrix[int]{{1, 2}, {3, 4}, {5, 6}}
 //	rows := mat.Rows()  // Returns 3
-func (m Matrix[T]) Rows() int {
-	return len(m)
+func (m *Matrix[T]) Rows() int {
+	return len(*m)
 }
 
 // Cols returns the number of columns in the matrix.
@@ -155,9 +190,72 @@ func (m Matrix[T]) Rows() int {
 //
 //	mat := Matrix[int]{{1, 2, 3}, {4, 5, 6}}
 //	cols := mat.Cols()  // Returns 3
-func (m Matrix[T]) Cols() int {
-	if len(m) == 0 {
+func (m *Matrix[T]) Cols() int {
+	if len(*m) == 0 {
 		return 0
 	}
-	return len(m[0])
+	return len((*m)[0])
+}
+
+// Get retrieves the value at the specified row and column in the matrix.
+//
+// This method provides bounds-checked access for reading matrix elements.
+// It ensures that both indices are valid before attempting to access the matrix,
+// preventing potential runtime panics.
+//
+// Parameters:
+//   - row: The row index (0-based)
+//   - col: The column index (0-based)
+//
+// Returns:
+//   - T: The value at the specified position
+//   - error: An error if either index is out of bounds
+//
+// Example:
+//
+//	mat := Matrix[float64]{{1.0, 2.0}, {3.0, 4.0}}
+//	val, err := mat.Get(1, 0)  // Returns 3.0, nil
+func (m *Matrix[T]) Get(row, col int) (T, error) {
+	var zero T
+
+	if row < 0 || row >= len(*m) {
+		return zero, fmt.Errorf("row index %d out of bounds for matrix with %d rows", row, len(*m))
+	}
+
+	if col < 0 || col >= len((*m)[row]) {
+		return zero, fmt.Errorf("column index %d out of bounds for row %d with %d columns", col, row, len((*m)[row]))
+	}
+
+	return (*m)[row][col], nil
+}
+
+// Set modifies the value at the specified row and column in the matrix.
+//
+// This method provides bounds-checked access for setting matrix elements.
+// It ensures that both indices are valid before attempting to modify the matrix,
+// preventing potential runtime panics.
+//
+// Parameters:
+//   - row: The row index (0-based)
+//   - col: The column index (0-based)
+//   - val: The new value to set at the specified position
+//
+// Returns:
+//   - error: An error if either index is out of bounds
+//
+// Example:
+//
+//	mat := Matrix[float64]{{1.0, 2.0}, {3.0, 4.0}}
+//	err := mat.Set(1, 0, 5.0)  // mat becomes {{1.0, 2.0}, {5.0, 4.0}}
+func (m *Matrix[T]) Set(row, col int, val T) error {
+	if row < 0 || row >= len(*m) {
+		return fmt.Errorf("row index %d out of bounds for matrix with %d rows", row, len(*m))
+	}
+
+	if col < 0 || col >= len((*m)[row]) {
+		return fmt.Errorf("column index %d out of bounds for row %d with %d columns", col, row, len((*m)[row]))
+	}
+
+	(*m)[row][col] = val
+	return nil
 }

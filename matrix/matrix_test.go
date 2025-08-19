@@ -23,8 +23,13 @@ func TestConstructor(t *testing.T) {
 		t.Errorf("NewMatrix failed with valid input: %v", err1)
 	}
 
-	if !reflect.DeepEqual(m1, Matrix[int](good)) {
-		t.Errorf("NewMatrix returned incorrect matrix: got %v, want %v", m1, good)
+	// Expected result should be Matrix[float64], not Matrix[int]
+	expected := Matrix[float64]{
+		{1.0, 2.0},
+		{3.0, 4.0},
+	}
+	if !reflect.DeepEqual(m1, expected) {
+		t.Errorf("NewMatrix returned incorrect matrix: got %v, want %v", m1, expected)
 	}
 
 	// Test invalid matrix with inconsistent row lengths
@@ -35,8 +40,8 @@ func TestConstructor(t *testing.T) {
 
 	// Test deep copy - modifications to original shouldn't affect matrix
 	m3, _ := NewMatrix(good)
-	good[0][0] = 99 // Modify the original data
-	if m3[0][0] == 99 {
+	good[0][0] = 99       // Modify the original data
+	if m3[0][0] == 99.0 { // Compare against 99.0 since m3 is Matrix[float64]
 		t.Error("NewMatrix should create a deep copy, not share memory with input")
 	}
 
@@ -60,6 +65,7 @@ func TestConstructor(t *testing.T) {
 		t.Errorf("NewMatrix with nil input should return empty matrix, got %v", m5)
 	}
 
+	// Test float64 input
 	goodFloat := [][]float64{
 		{1.1, 2.2},
 		{3.3, 4.4},
@@ -68,8 +74,12 @@ func TestConstructor(t *testing.T) {
 	if err6 != nil {
 		t.Errorf("NewMatrix failed with float64 input: %v", err6)
 	}
-	if !reflect.DeepEqual(m6, Matrix[float64](goodFloat)) {
-		t.Errorf("NewMatrix returned incorrect float64 matrix: got %v, want %v", m6, goodFloat)
+	expectedFloat := Matrix[float64]{
+		{1.1, 2.2},
+		{3.3, 4.4},
+	}
+	if !reflect.DeepEqual(m6, expectedFloat) {
+		t.Errorf("NewMatrix returned incorrect float64 matrix: got %v, want %v", m6, expectedFloat)
 	}
 }
 
