@@ -10,13 +10,15 @@ import (
 	"errors"
 	"fmt"
 	"math"
+
+	"github.com/rickykimani/linalg"
 )
 
 // Vector represents a mathematical vector as a slice of numeric values.
 //
 // The generic type parameter T is constrained to either int or float64,
 // allowing for both integer and floating-point vectors.
-type Vector[T int | float64] []T
+type Vector[T linalg.NumberLike] []T
 
 // Origin3D represents the zero vector in 3D space
 var Origin3D = Vector[float64]{0, 0, 0}
@@ -98,7 +100,7 @@ func StandardBasisVector(axis, dim int) (Vector[float64], error) {
 //
 //	intSlice := []int{1, 2, 3}
 //	vec := NewVector(intSlice)  // Returns Vector[float64]{1.0, 2.0, 3.0}
-func NewVector[T int | float64](S []T) Vector[float64] {
+func NewVector[T linalg.NumberLike](S []T) Vector[float64] {
 	vec := make(Vector[float64], len(S))
 	for i, val := range S {
 		vec[i] = float64(val)
@@ -202,7 +204,7 @@ func (v *Vector[T]) Size() int {
 //
 // Returns:
 //   - bool: true if all components are zero, false otherwise
-func IsZero[T int | float64](v Vector[T]) bool {
+func IsZero[T linalg.NumberLike](v Vector[T]) bool {
 	for _, val := range v {
 		if val != 0 {
 			return false
@@ -219,7 +221,7 @@ func IsZero[T int | float64](v Vector[T]) bool {
 //
 // Returns:
 //   - bool: true if the vector's magnitude is approximately 1.0, false otherwise
-func IsUnit[T int | float64](v Vector[T]) bool {
+func IsUnit[T linalg.NumberLike](v Vector[T]) bool {
 	return math.Abs(Magnitude(v)-1.0) < 1e-10
 }
 
@@ -235,7 +237,7 @@ func IsUnit[T int | float64](v Vector[T]) bool {
 // Returns:
 //   - bool: true if the vectors are orthogonal, false otherwise
 //   - error: An error if the vectors have incompatible dimensions
-func IsOrthogonal[T, E int | float64](a Vector[T], b Vector[E]) (bool, error) {
+func IsOrthogonal[T, E linalg.NumberLike](a Vector[T], b Vector[E]) (bool, error) {
 	dot, err := Dot(a, b)
 	if err != nil {
 		return false, fmt.Errorf("checking orthogonality: %w", err)
@@ -255,7 +257,7 @@ func IsOrthogonal[T, E int | float64](a Vector[T], b Vector[E]) (bool, error) {
 // Returns:
 //   - bool: true if vectors are parallel, false otherwise
 //   - error: An error if the vectors have incompatible dimensions or if either is a zero vector
-func IsParallel[T, E int | float64](a Vector[T], b Vector[E]) (bool, error) {
+func IsParallel[T, E linalg.NumberLike](a Vector[T], b Vector[E]) (bool, error) {
 	if IsZero(a) || IsZero(b) {
 		return false, errors.New("zero vectors have no defined direction")
 	}
@@ -307,7 +309,7 @@ func (v Vector[T]) Copy() Vector[float64] {
 	return result
 }
 
-func vectorsAlmostEqual[T, E int | float64](a Vector[T], b Vector[E]) (bool, error) {
+func vectorsAlmostEqual[T, E linalg.NumberLike](a Vector[T], b Vector[E]) (bool, error) {
 	if len(a) != len(b) {
 		return false, errors.New("vectors must have the same dimension")
 	}

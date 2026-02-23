@@ -3,6 +3,8 @@ package vectors
 import (
 	"errors"
 	"math"
+
+	"github.com/rickykimani/linalg"
 )
 
 // EuclideanDistance calculates the Euclidean distance between two vectors.
@@ -26,7 +28,7 @@ import (
 //	v1 := Vector[int]{0, 0, 0}
 //	v2 := Vector[float64]{1.0, 1.0, 1.0}
 //	dist, _ := Distance(v1, v2)  // Returns √3 ≈ 1.732
-func EuclideanDistance[T, E int | float64](a Vector[T], b Vector[E]) (float64, error) {
+func EuclideanDistance[T, E linalg.NumberLike](a Vector[T], b Vector[E]) (float64, error) {
 	if len(a) != len(b) {
 		return 0, errors.New("vectors must have the same dimension")
 	}
@@ -56,7 +58,7 @@ func EuclideanDistance[T, E int | float64](a Vector[T], b Vector[E]) (float64, e
 // Formula: d(a,b) = |a₁-b₁| + |a₂-b₂| + ... + |aₙ-bₙ|
 //
 // https://simple.wikipedia.org/wiki/Manhattan_distance
-func ManhattanDistance[T, E int | float64](a Vector[T], b Vector[E]) (float64, error) {
+func ManhattanDistance[T, E linalg.NumberLike](a Vector[T], b Vector[E]) (float64, error) {
 	if len(a) != len(b) {
 		return 0, errors.New("vectors must have the same dimension")
 	}
@@ -86,7 +88,7 @@ func ManhattanDistance[T, E int | float64](a Vector[T], b Vector[E]) (float64, e
 // Formula: d(a,b) = max(|a₁-b₁|, |a₂-b₂|, ..., |aₙ-bₙ|)
 //
 // https://en.wikipedia.org/wiki/Chebyshev_distance
-func ChebyshevDistance[T, E int | float64](a Vector[T], b Vector[E]) (float64, error) {
+func ChebyshevDistance[T, E linalg.NumberLike](a Vector[T], b Vector[E]) (float64, error) {
 	if len(a) != len(b) {
 		return 0, errors.New("vectors must have the same dimension")
 	}

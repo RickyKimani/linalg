@@ -3,6 +3,8 @@ package matrix
 import (
 	"errors"
 	"fmt"
+
+	"github.com/rickykimani/linalg"
 )
 
 // Pow raises a square matrix to the specified integer power.
@@ -21,7 +23,7 @@ import (
 //   - n < 0: Returns the inverse of the matrix raised to the absolute value of n
 //
 // Time complexity: O(n × m³) where n is the power and m is the matrix dimension.
-func Pow[T int | float64](m Matrix[T], n int) (Matrix[float64], error) {
+func Pow[T linalg.NumberLike](m Matrix[T], n int) (Matrix[float64], error) {
 	// Validate matrix structure
 	if err := m.Validate(); err != nil {
 		return nil, fmt.Errorf("invalid matrix: %w", err)

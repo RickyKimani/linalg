@@ -3,6 +3,8 @@ package vectors
 import (
 	"errors"
 	"math"
+
+	"github.com/rickykimani/linalg"
 )
 
 // CartesianToPolar converts a 2D vector from Cartesian to polar coordinates.
@@ -20,7 +22,7 @@ import (
 //
 // The angle θ is normalized to the range [-π, π] by the Atan2 function.
 // For the zero vector (0,0), the angle is technically undefined but returns 0.
-func CartesianToPolar[T int | float64](v Vector[T]) (r, theta float64, err error) {
+func CartesianToPolar[T linalg.NumberLike](v Vector[T]) (r, theta float64, err error) {
 	if len(v) != 2 {
 		return 0, 0, errors.New("vector must be 2D")
 	}
@@ -76,7 +78,7 @@ func PolarToCartesian(r, theta float64) (Vector[float64], error) {
 //   - theta: Azimuthal angle in radians (-π to π)
 //   - phi: Polar/zenith angle in radians (0 to π)
 //   - err: Error if input vector is not 3D
-func CartesianToSpherical[T int | float64](v Vector[T]) (rho, theta, phi float64, err error) {
+func CartesianToSpherical[T linalg.NumberLike](v Vector[T]) (rho, theta, phi float64, err error) {
 	if len(v) != 3 {
 		return 0, 0, 0, errors.New("vector must be 3D")
 	}
@@ -146,7 +148,7 @@ func SphericalToCartesian(rho, theta, phi float64) (Vector[float64], error) {
 //   - theta: Azimuthal angle in radians (-π to π)
 //   - z: Height along the z-axis
 //   - err: Error if input vector is not 3D
-func CartesianToCylindrical[T int | float64](v Vector[T]) (r, theta, z float64, err error) {
+func CartesianToCylindrical[T linalg.NumberLike](v Vector[T]) (r, theta, z float64, err error) {
 	if len(v) != 3 {
 		return 0, 0, 0, errors.New("vector must be 3D")
 	}

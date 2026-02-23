@@ -3,6 +3,8 @@ package matrix
 import (
 	"errors"
 	"math"
+
+	"github.com/rickykimani/linalg"
 )
 
 // EigenvaluesQR computes the eigenvalues of a square matrix using the QR algorithm.
@@ -28,7 +30,7 @@ import (
 //
 // Limitations:
 //   - Complex eigenvalues are ignored.
-func EigenvaluesQR[T int | float64](m Matrix[T], maxIter int, tol float64) ([]float64, error) {
+func EigenvaluesQR[T linalg.NumberLike](m Matrix[T], maxIter int, tol float64) ([]float64, error) {
 	// Validate input matrix
 	if err := m.Validate(); err != nil {
 		return nil, err

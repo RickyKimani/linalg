@@ -1,5 +1,7 @@
 package matrix
 
+import "github.com/rickykimani/linalg"
+
 // Transpose returns the transpose of a matrix.
 //
 // The transpose of a matrix is formed by flipping the matrix over its main diagonal,
@@ -15,7 +17,7 @@ package matrix
 // This function preserves the original matrix and returns a new matrix.
 //
 // Time complexity: O(m×n) where m is the number of rows and n is the number of columns.
-func Transpose[T int | float64](m Matrix[T]) Matrix[T] {
+func Transpose[T linalg.NumberLike](m Matrix[T]) Matrix[T] {
 	// Validate matrix structure
 	if err := m.Validate(); err != nil {
 		// Return empty matrix for invalid input

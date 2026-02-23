@@ -1,6 +1,10 @@
 package vectors
 
-import "errors"
+import (
+	"errors"
+
+	"github.com/rickykimani/linalg"
+)
 
 // Normalize returns the unit vector (vector of length 1) in the direction of the input vector.
 //
@@ -27,7 +31,7 @@ import "errors"
 //
 //	v := Vector[float64]{3.0, 4.0}
 //	unit, _ := Normalize(v)  // Returns [0.6, 0.8]
-func Normalize[T int | float64](a Vector[T]) (Vector[float64], error) {
+func Normalize[T linalg.NumberLike](a Vector[T]) (Vector[float64], error) {
 	if IsZero(a) {
 		return nil, errors.New("cannot normalize zero vector")
 	}

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/rickykimani/linalg"
 	"github.com/rickykimani/linalg/vectors"
 )
 
@@ -25,7 +26,7 @@ import (
 // The time complexity is O(n³) for square matrices of size n×n, or more generally
 // O(rows × cols × common) where rows and cols are the dimensions of the result matrix
 // and common is the shared dimension between the input matrices.
-func Multiply[T, E int | float64](a Matrix[T], b Matrix[E]) (Matrix[float64], error) {
+func Multiply[T, E linalg.NumberLike](a Matrix[T], b Matrix[E]) (Matrix[float64], error) {
 	// Validate matrix structure
 	if err := a.Validate(); err != nil {
 		return nil, fmt.Errorf("first matrix: %w", err)
@@ -81,7 +82,7 @@ func Multiply[T, E int | float64](a Matrix[T], b Matrix[E]) (Matrix[float64], er
 // Example:
 //
 //	Matrix [[1,2], [3,4]] × Vector [5,6] = [17, 39]
-func MultiplyVector[T, E int | float64](m Matrix[T], v vectors.Vector[E]) (vectors.Vector[float64], error) {
+func MultiplyVector[T, E linalg.NumberLike](m Matrix[T], v vectors.Vector[E]) (vectors.Vector[float64], error) {
 	// Validate matrix structure
 	if err := m.Validate(); err != nil {
 		return nil, fmt.Errorf("matrix: %w", err)
@@ -132,7 +133,7 @@ func MultiplyVector[T, E int | float64](m Matrix[T], v vectors.Vector[E]) (vecto
 // Example:
 //
 //	Vector [1,2] × Matrix [[3,4], [5,6]] = [13, 16]
-func VectorMultiply[T, E int | float64](v vectors.Vector[T], m Matrix[E]) (vectors.Vector[float64], error) {
+func VectorMultiply[T, E linalg.NumberLike](v vectors.Vector[T], m Matrix[E]) (vectors.Vector[float64], error) {
 	// Validate matrix structure
 	if err := m.Validate(); err != nil {
 		return nil, fmt.Errorf("matrix: %w", err)

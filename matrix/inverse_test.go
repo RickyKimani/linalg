@@ -9,12 +9,12 @@ func TestInverse(t *testing.T) {
 	t.Run("Regular cases", func(t *testing.T) {
 		tests := []struct {
 			name     string
-			matrix   Matrix[int]
+			matrix   Matrix[int64]
 			expected Matrix[float64]
 		}{
 			{
 				name: "Identity matrix",
-				matrix: Matrix[int]{
+				matrix: Matrix[int64]{
 					{1, 0, 0},
 					{0, 1, 0},
 					{0, 0, 1},
@@ -27,7 +27,7 @@ func TestInverse(t *testing.T) {
 			},
 			{
 				name: "3x3 matrix",
-				matrix: Matrix[int]{
+				matrix: Matrix[int64]{
 					{3, 0, 2},
 					{2, 0, -2},
 					{0, 1, 1},
@@ -40,7 +40,7 @@ func TestInverse(t *testing.T) {
 			},
 			{
 				name: "4x4 matrix",
-				matrix: Matrix[int]{
+				matrix: Matrix[int64]{
 					{1, 2, 3, 0},
 					{0, 1, 4, 4},
 					{5, 6, 0, 2},

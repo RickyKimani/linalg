@@ -3,6 +3,8 @@ package matrix
 import (
 	"errors"
 	"math"
+
+	"github.com/rickykimani/linalg"
 )
 
 // QRDecompose performs QR decomposition of a matrix using the Gram-Schmidt process.
@@ -24,7 +26,7 @@ import (
 // orthogonalization), the function will return an error.
 //
 // Time complexity: O(n²m) where n is the number of rows and m is the number of columns.
-func QRDecompose[T int | float64](m Matrix[T]) (Matrix[float64], Matrix[float64], error) {
+func QRDecompose[T linalg.NumberLike](m Matrix[T]) (Matrix[float64], Matrix[float64], error) {
 	// Validate matrix structure
 	if err := m.Validate(); err != nil {
 		return nil, nil, err

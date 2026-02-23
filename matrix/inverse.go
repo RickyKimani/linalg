@@ -3,6 +3,8 @@ package matrix
 import (
 	"errors"
 	"math"
+
+	"github.com/rickykimani/linalg"
 )
 
 // Inverse calculates the inverse of a matrix using Gauss-Jordan elimination.
@@ -19,7 +21,7 @@ import (
 // For numerical stability, the function performs row swapping when a pivot element is zero.
 //
 // Note: The inverse only exists for square matrices with non-zero determinant (non-singular).
-func Inverse[T int | float64](m Matrix[T]) (Matrix[float64], error) {
+func Inverse[T linalg.NumberLike](m Matrix[T]) (Matrix[float64], error) {
 	// Validate input
 	if err := m.Validate(); err != nil {
 		return nil, err

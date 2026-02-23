@@ -1,6 +1,10 @@
 package matrix
 
-import "math"
+import (
+	"math"
+
+	"github.com/rickykimani/linalg"
+)
 
 // Rank calculates the rank of a matrix using Gaussian elimination.
 //
@@ -20,7 +24,7 @@ import "math"
 //
 // For an empty matrix, the function returns 0.
 // Time complexity: O(min(n,m) × n × m) where n is the number of rows and m is the number of columns.
-func Rank[T int | float64](m Matrix[T]) int {
+func Rank[T linalg.NumberLike](m Matrix[T]) int {
 	// Validate matrix structure
 	if err := m.Validate(); err != nil {
 		// For rank calculation, we should still proceed even with inconsistent rows

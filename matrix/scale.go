@@ -1,5 +1,7 @@
 package matrix
 
+import "github.com/rickykimani/linalg"
+
 // Scale multiplies each element of a matrix by a scalar value.
 //
 // Parameters:
@@ -13,7 +15,7 @@ package matrix
 // The result is always a float64 matrix to accommodate mixed-type operations.
 //
 // Time complexity: O(m×n) where m is the number of rows and n is the number of columns.
-func Scale[T, E int | float64](s T, m Matrix[E]) Matrix[float64] {
+func Scale[T, E linalg.NumberLike](s T, m Matrix[E]) Matrix[float64] {
 	// Validate matrix structure
 	if err := m.Validate(); err != nil {
 		// Return empty matrix for invalid input

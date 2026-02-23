@@ -3,6 +3,8 @@ package vectors
 import (
 	"errors"
 	"math"
+
+	"github.com/rickykimani/linalg"
 )
 
 // Reflect reflects vector v across unit normal vector n.
@@ -21,7 +23,7 @@ import (
 //
 // Note: For correct physical reflection, n should be a unit vector (normalized).
 // If not, the reflection will be scaled by the magnitude of n.
-func Reflect[T, E int | float64](v Vector[T], n Vector[E]) (Vector[float64], error) {
+func Reflect[T, E linalg.NumberLike](v Vector[T], n Vector[E]) (Vector[float64], error) {
 	// v' = v - 2(v·n)n
 	dot, err := Dot(v, n)
 	if err != nil {
@@ -47,7 +49,7 @@ func Reflect[T, E int | float64](v Vector[T], n Vector[E]) (Vector[float64], err
 //   - error: An error if the vector is not 2D
 //
 // Time complexity: O(1) - constant time regardless of vector size
-func Rotate2D[T int | float64](v Vector[T], angle float64) (Vector[float64], error) {
+func Rotate2D[T linalg.NumberLike](v Vector[T], angle float64) (Vector[float64], error) {
 	if len(v) != 2 {
 		return nil, errors.New("vector must be 2D")
 	}
@@ -72,7 +74,7 @@ func Rotate2D[T int | float64](v Vector[T], angle float64) (Vector[float64], err
 // Returns:
 //   - Vector[float64]: The rotated vector
 //   - error: An error if the vector is not 3D or if the axis is not a unit vector
-func Rotate3D[T, E int | float64](v Vector[T], axis Vector[E], angle float64) (Vector[float64], error) {
+func Rotate3D[T, E linalg.NumberLike](v Vector[T], axis Vector[E], angle float64) (Vector[float64], error) {
 	if len(v) != 3 || len(axis) != 3 {
 		return nil, errors.New("both vectors must be 3D")
 	}

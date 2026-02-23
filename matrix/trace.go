@@ -3,6 +3,8 @@ package matrix
 import (
 	"errors"
 	"fmt"
+
+	"github.com/rickykimani/linalg"
 )
 
 // Trace calculates the sum of elements on the main diagonal of a square matrix.
@@ -21,7 +23,7 @@ import (
 // function will return an error.
 //
 // Time complexity: O(n) where n is the dimension of the square matrix.
-func Trace[T int | float64](m Matrix[T]) (T, error) {
+func Trace[T linalg.NumberLike](m Matrix[T]) (T, error) {
 	// Validate matrix structure
 	if err := m.Validate(); err != nil {
 		return 0, fmt.Errorf("invalid matrix: %w", err)

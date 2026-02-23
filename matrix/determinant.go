@@ -3,6 +3,8 @@ package matrix
 import (
 	"errors"
 	"fmt"
+
+	"github.com/rickykimani/linalg"
 )
 
 // Det calculates the determinant of a square matrix using LU decomposition.
@@ -21,7 +23,7 @@ import (
 // For a singular matrix (one that does not have an inverse), the function returns 0.
 // The implementation uses LU decomposition with partial pivoting, which is numerically
 // stable and efficient for most matrices.
-func Det[T int | float64](m Matrix[T]) (float64, error) {
+func Det[T linalg.NumberLike](m Matrix[T]) (float64, error) {
 	// Validate input
 	if err := m.Validate(); err != nil {
 		return 0, fmt.Errorf("invalid matrix: %w", err)

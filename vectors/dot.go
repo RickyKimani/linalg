@@ -1,6 +1,10 @@
 package vectors
 
-import "errors"
+import (
+	"errors"
+
+	"github.com/rickykimani/linalg"
+)
 
 // Dot calculates the dot product (scalar product) of two vectors.
 //
@@ -28,7 +32,7 @@ import "errors"
 //	v1 := Vector[int]{1, 2, 3}
 //	v2 := Vector[float64]{4.0, 5.0, 6.0}
 //	result, _ := Dot(v1, v2)  // Returns 32.0 = 1*4 + 2*5 + 3*6
-func Dot[T, E int | float64](a Vector[T], b Vector[E]) (result float64, err error) {
+func Dot[T, E linalg.NumberLike](a Vector[T], b Vector[E]) (result float64, err error) {
 	if len(a) != len(b) {
 		return 0, errors.New("vectors must have the same dimension")
 	}

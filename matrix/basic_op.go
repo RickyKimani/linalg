@@ -3,6 +3,8 @@ package matrix
 import (
 	"errors"
 	"fmt"
+
+	"github.com/rickykimani/linalg"
 )
 
 // Add combines two matrices by adding their corresponding elements.
@@ -18,7 +20,7 @@ import (
 //
 // Both matrices must have identical dimensions (rows × columns).
 // The result is always a float64 matrix to accommodate mixed-type operations.
-func Add[T, E int | float64](a Matrix[T], b Matrix[E]) (Matrix[float64], error) {
+func Add[T, E linalg.NumberLike](a Matrix[T], b Matrix[E]) (Matrix[float64], error) {
 	// Validate matrix structure
 	if err := a.Validate(); err != nil {
 		return nil, fmt.Errorf("first matrix: %w", err)
@@ -69,7 +71,7 @@ func Add[T, E int | float64](a Matrix[T], b Matrix[E]) (Matrix[float64], error) 
 //
 // Both matrices must have identical dimensions (rows × columns).
 // The result is always a float64 matrix to accommodate mixed-type operations.
-func Subtract[T, E int | float64](a Matrix[T], b Matrix[E]) (Matrix[float64], error) {
+func Subtract[T, E linalg.NumberLike](a Matrix[T], b Matrix[E]) (Matrix[float64], error) {
 	// Validate matrix structure
 	if err := a.Validate(); err != nil {
 		return nil, fmt.Errorf("first matrix: %w", err)

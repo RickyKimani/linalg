@@ -3,6 +3,8 @@ package vectors
 import (
 	"errors"
 	"math"
+
+	"github.com/rickykimani/linalg"
 )
 
 // angleCosine calculates the cosine of the angle between two vectors.
@@ -19,7 +21,7 @@ import (
 //   - float64: Cosine of the angle between the vectors
 //   - error: An error if the vectors have incompatible dimensions, are empty, or if
 //     either vector is a zero vector (which has no defined direction)
-func angleCosine[T, E int | float64](a Vector[T], b Vector[E]) (float64, error) {
+func angleCosine[T, E linalg.NumberLike](a Vector[T], b Vector[E]) (float64, error) {
 	if len(a) != len(b) {
 		return 0, errors.New("vectors must have same dimension")
 	}
@@ -65,7 +67,7 @@ func angleCosine[T, E int | float64](a Vector[T], b Vector[E]) (float64, error) 
 //   - float64: Angle in radians between the vectors (0 to π)
 //   - error: An error if the vectors have incompatible dimensions, are empty, or if
 //     either vector is a zero vector
-func Angle[T, E int | float64](a Vector[T], b Vector[E]) (float64, error) {
+func Angle[T, E linalg.NumberLike](a Vector[T], b Vector[E]) (float64, error) {
 	cos, err := angleCosine(a, b)
 	if err != nil {
 		return 0, err
@@ -86,7 +88,7 @@ func Angle[T, E int | float64](a Vector[T], b Vector[E]) (float64, error) {
 //   - float64: Angle in degrees between the vectors (0 to 180)
 //   - error: An error if the vectors have incompatible dimensions, are empty, or if
 //     either vector is a zero vector
-func AngleDeg[T, E int | float64](a Vector[T], b Vector[E]) (float64, error) {
+func AngleDeg[T, E linalg.NumberLike](a Vector[T], b Vector[E]) (float64, error) {
 	cos, err := angleCosine(a, b)
 	if err != nil {
 		return 0, err

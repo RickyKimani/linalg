@@ -1,6 +1,10 @@
 package vectors
 
-import "errors"
+import (
+	"errors"
+
+	"github.com/rickykimani/linalg"
+)
 
 // DirectionCosines calculates the direction cosines of a 3D vector.
 //
@@ -20,7 +24,7 @@ import "errors"
 // Direction cosines always satisfy l² + m² + n² = 1, and each component is
 // in the range [-1, 1]. They are equivalent to the components of the unit vector
 // in the same direction as the input vector.
-func DirectionCosines[T int | float64](a Vector[T]) (l, m, n float64, err error) {
+func DirectionCosines[T linalg.NumberLike](a Vector[T]) (l, m, n float64, err error) {
 	if len(a) != 3 {
 		return 0, 0, 0, errors.New("direction cosines are only defined for 3D vectors")
 	}

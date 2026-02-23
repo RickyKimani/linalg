@@ -3,6 +3,8 @@ package matrix
 import (
 	"errors"
 	"math"
+
+	"github.com/rickykimani/linalg"
 )
 
 // LUDecompose performs LU decomposition with partial pivoting on a square matrix.
@@ -26,7 +28,7 @@ import (
 // and inverting matrices more efficiently than direct methods.
 //
 // Time complexity: O(n³) where n is the matrix dimension.
-func LUDecompose[T int | float64](m Matrix[T]) (Matrix[float64], Matrix[float64], int, error) {
+func LUDecompose[T linalg.NumberLike](m Matrix[T]) (Matrix[float64], Matrix[float64], int, error) {
 	if err := m.Validate(); err != nil {
 		return nil, nil, 0, err
 	}

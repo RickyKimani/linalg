@@ -1,6 +1,10 @@
 package vectors
 
-import "math"
+import (
+	"math"
+
+	"github.com/rickykimani/linalg"
+)
 
 // Magnitude calculates the Euclidean norm (length) of a vector.
 //
@@ -25,7 +29,7 @@ import "math"
 //
 //	v := Vector[float64]{3.0, 4.0}
 //	mag := Magnitude(v)  // Returns 5.0 (Pythagorean triple 3-4-5)
-func Magnitude[T int | float64](a Vector[T]) float64 {
+func Magnitude[T linalg.NumberLike](a Vector[T]) float64 {
 	var sum float64
 	for _, v := range a {
 		sum += float64(v) * float64(v)

@@ -1,6 +1,10 @@
 package vectors
 
-import "errors"
+import (
+	"errors"
+
+	"github.com/rickykimani/linalg"
+)
 
 // Project calculates the vector projection of vector a onto vector b.
 //
@@ -28,7 +32,7 @@ import "errors"
 //	v1 := Vector[float64]{3.0, 4.0}
 //	v2 := Vector[float64]{1.0, 0.0}
 //	proj, _ := Project(v1, v2)  // Returns [3.0, 0.0] (projection onto x-axis)
-func Project[T, E int | float64](a Vector[T], b Vector[E]) (Vector[float64], error) {
+func Project[T, E linalg.NumberLike](a Vector[T], b Vector[E]) (Vector[float64], error) {
 	if len(a) != len(b) {
 		return nil, errors.New("vectors must have the same dimension")
 	}

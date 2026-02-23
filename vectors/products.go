@@ -1,6 +1,10 @@
 package vectors
 
-import "errors"
+import (
+	"errors"
+
+	"github.com/rickykimani/linalg"
+)
 
 // ScalarProduct calculates the scalar triple product of three vectors (A • (B × C)).
 //
@@ -33,7 +37,7 @@ import "errors"
 //	v2 := Vector[float64]{0, 1, 0}
 //	v3 := Vector[float64]{0, 0, 1}
 //	vol, _ := ScalarProduct(v1, v2, v3) // Returns 1.0 (unit cube volume)
-func ScalarProduct[T, E, B int | float64](a Vector[T], b Vector[E], c Vector[B]) (float64, error) {
+func ScalarProduct[T, E, B linalg.NumberLike](a Vector[T], b Vector[E], c Vector[B]) (float64, error) {
 	// All vectors must be 3D for cross product
 	if len(a) != 3 || len(b) != 3 || len(c) != 3 {
 		return 0, errors.New("scalar triple product requires three 3D vectors")
@@ -70,7 +74,7 @@ func ScalarProduct[T, E, B int | float64](a Vector[T], b Vector[E], c Vector[B])
 //	v2 := Vector[float64]{0, 1, 0}
 //	v3 := Vector[float64]{0, 0, 1}
 //	result, _ := VectorProduct(v1, v2, v3) // Returns [0, -1, 0]
-func VectorProduct[T, E, B int | float64](a Vector[T], b Vector[E], c Vector[B]) (Vector[float64], error) {
+func VectorProduct[T, E, B linalg.NumberLike](a Vector[T], b Vector[E], c Vector[B]) (Vector[float64], error) {
 	// All vectors must be 3D for cross product
 	if len(a) != 3 || len(b) != 3 || len(c) != 3 {
 		return nil, errors.New("vector triple product requires three 3D vectors")

@@ -1,6 +1,10 @@
 package vectors
 
-import "errors"
+import (
+	"errors"
+
+	"github.com/rickykimani/linalg"
+)
 
 // Add combines two vectors by element-wise addition.
 //
@@ -14,7 +18,7 @@ import "errors"
 //   - error: An error if vectors have incompatible dimensions
 //
 // The result is always a float64 vector to accommodate mixed-type operations.
-func Add[T, E int | float64](a Vector[T], b Vector[E]) (Vector[float64], error) {
+func Add[T, E linalg.NumberLike](a Vector[T], b Vector[E]) (Vector[float64], error) {
 	if len(a) != len(b) {
 		return nil, errors.New("vectors must have the same dimension")
 	}
@@ -37,7 +41,7 @@ func Add[T, E int | float64](a Vector[T], b Vector[E]) (Vector[float64], error) 
 //   - error: An error if vectors have incompatible dimensions
 //
 // The result is always a float64 vector to accommodate mixed-type operations.
-func Subtract[T, E int | float64](a Vector[T], b Vector[E]) (Vector[float64], error) {
+func Subtract[T, E linalg.NumberLike](a Vector[T], b Vector[E]) (Vector[float64], error) {
 	if len(a) != len(b) {
 		return nil, errors.New("vectors must have the same dimension")
 	}
@@ -57,6 +61,6 @@ func Subtract[T, E int | float64](a Vector[T], b Vector[E]) (Vector[float64], er
 //   - Vector[float64]: A new vector where each element is the negation of the input
 //
 // This is equivalent to scaling the vector by -1.
-func Negate[T int | float64](v Vector[T]) Vector[float64] {
+func Negate[T linalg.NumberLike](v Vector[T]) Vector[float64] {
 	return Scale(-1, v)
 }
